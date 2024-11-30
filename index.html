@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharkEnglish 鲨鱼英语学习机</title>
+    <style>
+        /* 基本样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* 添加平滑滚动效果 */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f9;
+        }
+
+        /* CSS变量定义 */
+        :root {
+            --header-height: 80px; /* 默认header高度 */
+            --gap-size: 20px;      /* 统一的间距大小 */
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: inherit; /* 继承自body的字体 */
+            font-size: 2.5em;
+        }
+
+        /* 导航菜单 */
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: var(--gap-size); /* 使用统一的间距变量 */
+            margin-top: 10px;
+            font-family: inherit; /* 继承自body的字体 */
+            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #feb47b;
+        }
+
+        /* 主内容区 */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        /* 产品展示 */
+        .product-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--gap-size); /* 使用统一的间距变量 */
+            justify-content: center; /* 居中对齐 */
+            margin-bottom: 50px; /* 统一下方间距 */
+        }
+
+        .product-images .image-placeholder {
+            flex: 0 0 calc(50% - 10px); /* 50% 减去一半的 gap */
+            height: 300px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 1.2em;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .product-images .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 修改为 contain 以保持图片比例 */
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .product-images .image-placeholder:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 特色功能 */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--gap-size); /* 使用统一的间距变量 */
+            justify-content: space-between;
+            margin-bottom: 50px; /* 统一下方间距 */
+        }
+
+        .features .feature {
+            flex: 0 0 calc(50% - 10px); /* 50% 减去一半的 gap */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .features .feature:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            color: #ff7e5f;
+            margin-right: 15px;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 10px;
+            color: #ff7e5f;
+            font-family: inherit; /* 继承自body的字体 */
+            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+        }
+
+        .feature-content p {
+            color: #555;
+            font-family: inherit; /* 继承自body的字体 */
+        }
+
+        /* 使用视频板块 */
+        .video-section {
+            margin-bottom: 50px; /* 统一下方间距 */
+        }
+
+        .video-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: inherit; /* 继承自body的字体 */
+            font-size: 2em;
+            color: #ff7e5f;
+            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+        }
+
+        .video-container {
+            width: 70%; /* 调整宽度为70% */
+            max-width: 800px; /* 设置最大宽度为800px */
+            aspect-ratio: 16 / 9; /* 保持16:9比例 */
+            margin: 0 auto; /* 居中 */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #ff7e5f;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+            font-family: inherit; /* 继承自body的字体 */
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff7e5f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: inherit; /* 继承自body的字体 */
+            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #feb47b;
+        }
+
+        /* 行动号召 (CTA) */
+        .cta {
+            margin-bottom: 50px; /* 统一下方间距 */
+            text-align: center;
+            font-family: inherit; /* 继承自body的字体 */
+        }
+
+        /* 修复导航点击跳转位置 */
+        section {
+            scroll-margin-top: calc(var(--header-height) + 20px); /* 使用CSS变量动态设置 */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .features .feature, .product-images .image-placeholder, .video-section .video-container {
+                flex: 0 0 100%; /* 全宽 */
+                max-width: 100%;
+                width: 100%; /* 确保全宽 */
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            /* 调整scroll-margin-top在小屏幕上的值，如果header高度变化 */
+            section {
+                scroll-margin-top: 120px; /* 根据小屏幕上header的实际高度调整 */
+            }
+
+            /* 调整视频容器宽度 */
+            .video-container {
+                width: 100%; /* 全宽 */
+                aspect-ratio: 16 / 9; /* 保持16:9比例 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 头部 -->
+    <header>
+        <h1>鲨鱼英语学习机</h1>
+        <nav>
+            <ul>
+                <li><a href="#products">图片</a></li>
+                <li><a href="#features">功能</a></li>
+                <li><a href="#video">使用视频</a></li> <!-- 新增导航链接 -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主内容 -->
+    <div class="container">
+
+        <!-- 产品展示 -->
+        <section class="product-images" id="products">
+            <div class="image-placeholder">
+                <img src="pic1.png" alt="产品页面 1" loading="lazy">
+            </div>
+            <div class="image-placeholder">
+                <img src="pic2.png" alt="产品页面 2" loading="lazy">
+            </div>
+        </section>
+
+        <!-- 特色功能 -->
+        <section class="features" id="features">
+            <div class="feature">
+                <div class="feature-icon">📚</div>
+                <div class="feature-content">
+                    <h3>边学边练，便于记忆</h3>
+                    <p>通过交互式练习，帮助用户在学习过程中即时巩固知识，提升记忆效果。</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔠</div>
+                <div class="feature-content">
+                    <h3>海量词库，个性化定制</h3>
+                    <p>支持根据用户需求导入词汇，打造专属学习内容，满足不同学习需求。</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <div class="feature-content">
+                    <h3>考试模式，轻松复习</h3>
+                    <p>多种考试模式，帮助用户系统复习，轻松应对各类考试。</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚙️</div>
+                <div class="feature-content">
+                    <h3>在线升级，售后无忧</h3>
+                    <p>定期在线升级，确保学习机始终保持最佳性能，提供全面售后支持。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用视频 -->
+        <section class="video-section" id="video">
+            <h2>使用视频</h2>
+            <div class="video-container">
+                <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=113572222996369&bvid=BV1qWzpYPEy1&cid=27112704421&p=1" 
+                        scrolling="no" 
+                        frameborder="0" 
+                        allowfullscreen="true" 
+                        loading="lazy">
+                </iframe>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2024 SharkEnglish. 版权所有.</p>
+    </footer>
+
+    <!-- JavaScript 动态调整 scroll-margin-top -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const header = document.querySelector('header');
+            const sections = document.querySelectorAll('section');
+
+            function updateScrollMargin() {
+                const headerHeight = header.offsetHeight;
+                sections.forEach(section => {
+                    section.style.scrollMarginTop = `calc(${headerHeight}px + 30px)`; // 加一点额外空间
+                });
+            }
+
+            updateScrollMargin();
+
+            window.addEventListener('resize', updateScrollMargin);
+        });
+    </script>
+
+</body>
+</html>
