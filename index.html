@@ -100,24 +100,25 @@
             z-index: 1;
         }
 
+        /* 修正后的 z-index */
         .carousel-slide.prev {
             transform: translateX(-150%) scale(0.8);
-            z-index: 1;
+            z-index: 0; /* 反方向的图片在最下层 */
         }
 
         .carousel-slide.current {
             transform: translateX(-50%) scale(1);
-            z-index: 3;
+            z-index: 3; /* 当前显示的图片在最上层 */
         }
 
         .carousel-slide.next {
             transform: translateX(50%) scale(0.8);
-            z-index: 2;
+            z-index: 2; /* 移动方向的图片在中间层 */
         }
 
         .carousel-slide.hidden {
             transform: translateX(200%) scale(0.8);
-            z-index: 0;
+            z-index: 1; /* 隐藏的图片在最低层 */
         }
 
         .image-placeholder {
@@ -188,7 +189,6 @@
             background-color: #ff7e5f;
         }
 
-        
         .features {
             display: flex;
             flex-wrap: wrap;
@@ -315,7 +315,6 @@
             color: #333;
         }
 
-        
         .video-section {
             margin-bottom: 50px;
         }
@@ -368,12 +367,10 @@
             background-color: #feb47b;
         }
 
-        
         section {
             scroll-margin-top: calc(var(--header-height) + 20px);
         }
 
-        
         @media (max-width: 768px) {
             .features .feature,
             .video-section .video-container {
@@ -592,8 +589,12 @@
             const nextButton = document.querySelector('.next-button');
             let currentIndex = 1;
             let slideInterval;
+            let isMoving = false; // 防止多次点击导致的问题
 
             function updateSlides(index) {
+                if (isMoving) return;
+                isMoving = true;
+
                 slides.forEach((slide, i) => {
                     slide.classList.remove('prev', 'current', 'next', 'hidden');
                     if (i === index) {
@@ -609,6 +610,11 @@
 
                 dots.forEach(dot => dot.classList.remove('active'));
                 dots[index].classList.add('active');
+
+                // 延迟解除移动状态
+                setTimeout(() => {
+                    isMoving = false;
+                }, 500); // 与CSS过渡时间一致
             }
 
             function showNextSlide() {
@@ -643,10 +649,13 @@
 
             dots.forEach(dot => {
                 dot.addEventListener('click', () => {
-                    stopSlideInterval();
-                    currentIndex = parseInt(dot.getAttribute('data-index'));
-                    updateSlides(currentIndex);
-                    startSlideInterval();
+                    const index = parseInt(dot.getAttribute('data-index'));
+                    if (index !== currentIndex) {
+                        stopSlideInterval();
+                        currentIndex = index;
+                        updateSlides(currentIndex);
+                        startSlideInterval();
+                    }
                 });
             });
 
