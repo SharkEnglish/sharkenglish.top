@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鲨鱼英语学习机</title>
     <style>
-        /* 基本样式重置 */
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +12,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* 添加平滑滚动效果 */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -23,13 +22,11 @@
             background-color: #f4f4f9;
         }
 
-        /* CSS变量定义 */
         :root {
-            --header-height: 80px; /* 默认header高度 */
-            --gap-size: 20px;      /* 统一的间距大小 */
+            --header-height: 80px;
+            --gap-size: 20px;
         }
 
-        /* 头部样式 */
         header {
             background: linear-gradient(135deg, #ff7e5f, #feb47b);
             color: #fff;
@@ -42,19 +39,16 @@
 
         header h1 {
             margin: 0;
-            font-family: inherit; /* 继承自body的字体 */
             font-size: 2.5em;
         }
 
-        /* 导航菜单 */
         header nav ul {
             list-style: none;
             display: flex;
             justify-content: center;
-            gap: var(--gap-size); /* 使用统一的间距变量 */
+            gap: var(--gap-size);
             margin-top: 10px;
-            font-family: inherit; /* 继承自body的字体 */
-            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+            font-weight: 600;
         }
 
         header nav ul li a {
@@ -67,60 +61,142 @@
             color: #feb47b;
         }
 
-        /* 主内容区 */
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 30px auto;
         }
 
-        /* 产品展示 */
         .product-images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--gap-size); /* 使用统一的间距变量 */
-            justify-content: center; /* 居中对齐 */
-            margin-bottom: 50px; /* 统一下方间距 */
-        }
-
-        .product-images .image-placeholder {
-            flex: 0 0 calc(50% - 10px); /* 50% 减去一半的 gap */
-            height: 300px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-            font-size: 1.2em;
             position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            margin: 50px auto;
             overflow: hidden;
-            transition: transform 0.3s;
         }
 
-        .product-images .image-placeholder img {
+        .carousel-container {
+            position: relative;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 修改为 contain 以保持图片比例 */
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 60%;
+            height: 100%;
+            transform: translateX(-50%);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide.prev {
+            transform: translateX(-150%) scale(0.8);
+            z-index: 1;
+        }
+
+        .carousel-slide.current {
+            transform: translateX(-50%) scale(1);
+            z-index: 2;
+        }
+
+        .carousel-slide.next {
+            transform: translateX(50%) scale(0.8);
+            z-index: 1;
+        }
+
+        .carousel-slide.hidden {
+            transform: translateX(200%) scale(0.8);
+            z-index: 0;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #e0e0e0;
             border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             transition: transform 0.3s;
         }
 
-        .product-images .image-placeholder:hover img {
+        .carousel-slide.current .image-placeholder:hover img {
             transform: scale(1.05);
         }
 
-        /* 特色功能 */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 126, 95, 0.7);
+            color: #fff;
+            border: none;
+            font-size: 2em;
+            padding: 0 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 3;
+            display: none;
+        }
+
+        .carousel-button:hover {
+            background-color: rgba(255, 126, 95, 0.9);
+        }
+
+        .prev-button {
+            left: 10px;
+        }
+
+        .next-button {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .carousel-dots .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .carousel-dots .dot.active {
+            background-color: #ff7e5f;
+        }
+
+        
         .features {
             display: flex;
             flex-wrap: wrap;
-            gap: var(--gap-size); /* 使用统一的间距变量 */
+            gap: var(--gap-size);
             justify-content: space-between;
-            margin-bottom: 50px; /* 统一下方间距 */
+            margin-bottom: 50px;
         }
 
         .features .feature {
-            flex: 0 0 calc(50% - 10px); /* 50% 减去一半的 gap */
+            flex: 0 0 calc(50% - 10px);
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -144,34 +220,117 @@
         .feature-content h3 {
             margin-bottom: 10px;
             color: #ff7e5f;
-            font-family: inherit; /* 继承自body的字体 */
-            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+            font-weight: 600;
         }
 
         .feature-content p {
             color: #555;
-            font-family: inherit; /* 继承自body的字体 */
         }
 
-        /* 使用视频板块 */
+        .advantages {
+            margin-bottom: 50px;
+        }
+
+        .advantages h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #ff7e5f;
+            font-weight: 600;
+        }
+
+        .advantage-labels {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--gap-size);
+            margin-bottom: var(--gap-size);
+        }
+
+        .advantage-labels .label {
+            flex: 0 0 calc(50% - 10px);
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .our-product-label {
+            background-color: #ff7e5f;
+            color: #fff;
+        }
+
+        .competitor-product-label {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .advantage-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap-size);
+        }
+
+        .advantage-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: var(--gap-size);
+        }
+
+        .advantage-item .our-product,
+        .advantage-item .competitor-product {
+            flex: 1 1 calc(50% - 10px);
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-size: 1em;
+            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+        }
+
+        .advantage-item .our-product:hover,
+        .advantage-item .competitor-product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .advantage-item .our-product {
+            background-color: #ff7e5f;
+            color: #fff;
+        }
+
+        .advantage-item .competitor-product {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        
         .video-section {
-            margin-bottom: 50px; /* 统一下方间距 */
+            margin-bottom: 50px;
         }
 
         .video-section h2 {
             text-align: center;
             margin-bottom: 20px;
-            font-family: inherit; /* 继承自body的字体 */
             font-size: 2em;
             color: #ff7e5f;
-            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+            font-weight: 600;
         }
 
         .video-container {
-            width: 70%; /* 调整宽度为70% */
-            max-width: 800px; /* 设置最大宽度为800px */
-            aspect-ratio: 16 / 9; /* 保持16:9比例 */
-            margin: 0 auto; /* 居中 */
+            width: 70%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -183,17 +342,14 @@
             border: 0;
         }
 
-        /* 页脚 */
         footer {
             background-color: #ff7e5f;
             color: #fff;
             text-align: center;
             padding: 20px 0;
             font-size: 0.9em;
-            font-family: inherit; /* 继承自body的字体 */
         }
-
-        /* 按钮样式 */
+        
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -202,8 +358,7 @@
             border: none;
             border-radius: 5px;
             text-decoration: none;
-            font-family: inherit; /* 继承自body的字体 */
-            font-weight: 600; /* 与原来的 Montserrat 600 保持一致 */
+            font-weight: 600;
             transition: background-color 0.3s;
         }
 
@@ -211,39 +366,61 @@
             background-color: #feb47b;
         }
 
-        /* 行动号召 (CTA) */
-        .cta {
-            margin-bottom: 50px; /* 统一下方间距 */
-            text-align: center;
-            font-family: inherit; /* 继承自body的字体 */
-        }
-
-        /* 修复导航点击跳转位置 */
+        
         section {
-            scroll-margin-top: calc(var(--header-height) + 20px); /* 使用CSS变量动态设置 */
+            scroll-margin-top: calc(var(--header-height) + 20px);
         }
 
-        /* 响应式设计 */
+        
         @media (max-width: 768px) {
-            .features .feature, .product-images .image-placeholder, .video-section .video-container {
-                flex: 0 0 100%; /* 全宽 */
+            .features .feature,
+            .video-section .video-container {
+                flex: 0 0 100%;
                 max-width: 100%;
-                width: 100%; /* 确保全宽 */
+                width: 100%;
+            }
+
+            .advantage-labels {
+                flex-wrap: wrap;
+                gap: var(--gap-size);
+            }
+
+            .advantage-labels .label {
+                flex: 1 1 calc(50% - 10px);
+                margin-bottom: 0; 
+            }
+
+            .advantage-item {
+                flex-wrap: nowrap;
+            }
+
+            .advantage-item .our-product,
+            .advantage-item .competitor-product {
+                flex: 1 1 calc(50% - 10px);
+                border-radius: 50px;
             }
 
             header h1 {
                 font-size: 2em;
             }
 
-            /* 调整scroll-margin-top在小屏幕上的值，如果header高度变化 */
             section {
-                scroll-margin-top: 120px; /* 根据小屏幕上header的实际高度调整 */
+                scroll-margin-top: 120px;
             }
 
-            /* 调整视频容器宽度 */
             .video-container {
-                width: 100%; /* 全宽 */
-                aspect-ratio: 16 / 9; /* 保持16:9比例 */
+                width: 100%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .carousel-slide {
+                width: 80%;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .carousel-button {
+                display: block;
             }
         }
     </style>
@@ -257,7 +434,8 @@
             <ul>
                 <li><a href="#products">图片</a></li>
                 <li><a href="#features">功能</a></li>
-                <li><a href="#video">使用视频</a></li> <!-- 新增导航链接 -->
+                <li><a href="#advantages">我们的优势</a></li>
+                <li><a href="#video">使用视频</a></li>
             </ul>
         </nav>
     </header>
@@ -267,11 +445,33 @@
 
         <!-- 产品展示 -->
         <section class="product-images" id="products">
-            <div class="image-placeholder">
-                <img src="pic1.png" alt="产品页面 1" loading="lazy">
-            </div>
-            <div class="image-placeholder">
-                <img src="pic2.png" alt="产品页面 2" loading="lazy">
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel-slide prev">
+                        <div class="image-placeholder">
+                            <img src="pic1.png" alt="产品页面 1" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="carousel-slide current">
+                        <div class="image-placeholder">
+                            <img src="pic2.png" alt="产品页面 2" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="carousel-slide next">
+                        <div class="image-placeholder">
+                            <img src="pic3.png" alt="产品页面 3" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+                <!-- PC端的左右按钮 -->
+                <button class="carousel-button prev-button">‹</button>
+                <button class="carousel-button next-button">›</button>
+                <!-- 导航点 -->
+                <div class="carousel-dots">
+                    <span class="dot" data-index="0"></span>
+                    <span class="dot active" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                </div>
             </div>
         </section>
 
@@ -307,26 +507,67 @@
             </div>
         </section>
 
+        <!-- 我们的优势 -->
+        <section class="advantages" id="advantages">
+            <h2>我们的优势</h2>
+            <div class="advantage-labels">
+                <div class="label our-product-label">鲨鱼英语学习机</div>
+                <div class="label competitor-product-label">竞品</div>
+            </div>
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="our-product">
+                        <span>同时学习并考察单词的拼写和读音</span>
+                    </div>
+                    <div class="competitor-product">
+                        <span>仅“认识”“会读”单词，难以通过考试</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="our-product">
+                        <span>提供上千本个性化词库，持续更新</span>
+                    </div>
+                    <div class="competitor-product">
+                        <span>词库固定，不可更新，只能学习课本单词</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="our-product">
+                        <span>专注单词学习，无干扰</span>
+                    </div>
+                    <div class="competitor-product">
+                        <span>可安装第三方娱乐软件，容易分心</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="our-product">
+                        <span>基于小米Pad改装，品牌品质保证，2K高清大屏护眼</span>
+                    </div>
+                    <div class="competitor-product">
+                        <span>1080P低分辨率屏幕，损害视力</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 使用视频 -->
         <section class="video-section" id="video">
             <h2>使用视频</h2>
             <div class="video-container">
-                <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=113572222996369&bvid=BV1qWzpYPEy1&cid=27112704421&p=1" 
-                        scrolling="no" 
-                        frameborder="0" 
-                        allowfullscreen="true" 
+                <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=113572222996369&bvid=BV1qWzpYPEy1&cid=27112704421&p=1"
+                        scrolling="no"
+                        frameborder="0"
+                        allowfullscreen="true"
                         loading="lazy">
                 </iframe>
             </div>
         </section>
     </div>
 
-    <!-- 页脚 -->
     <footer>
         <p>&copy; 2024 SharkEnglish. 版权所有.</p>
     </footer>
 
-    <!-- JavaScript 动态调整 scroll-margin-top -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const header = document.querySelector('header');
@@ -335,13 +576,110 @@
             function updateScrollMargin() {
                 const headerHeight = header.offsetHeight;
                 sections.forEach(section => {
-                    section.style.scrollMarginTop = `calc(${headerHeight}px + 30px)`; // 加一点额外空间
+                    section.style.scrollMarginTop = `calc(${headerHeight}px + 30px)`;
                 });
             }
 
             updateScrollMargin();
 
             window.addEventListener('resize', updateScrollMargin);
+
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dots .dot');
+            const prevButton = document.querySelector('.prev-button');
+            const nextButton = document.querySelector('.next-button');
+            let currentIndex = 1;
+            let slideInterval;
+
+            function updateSlides(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('prev', 'current', 'next', 'hidden');
+                    if (i === index) {
+                        slide.classList.add('current');
+                    } else if (i === (index - 1 + slides.length) % slides.length) {
+                        slide.classList.add('prev');
+                    } else if (i === (index + 1) % slides.length) {
+                        slide.classList.add('next');
+                    } else {
+                        slide.classList.add('hidden');
+                    }
+                });
+
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[index].classList.add('active');
+            }
+
+            function showNextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlides(currentIndex);
+            }
+
+            function showPrevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlides(currentIndex);
+            }
+
+            function startSlideInterval() {
+                slideInterval = setInterval(showNextSlide, 3000);
+            }
+
+            function stopSlideInterval() {
+                clearInterval(slideInterval);
+            }
+
+            nextButton.addEventListener('click', () => {
+                stopSlideInterval();
+                showNextSlide();
+                startSlideInterval();
+            });
+
+            prevButton.addEventListener('click', () => {
+                stopSlideInterval();
+                showPrevSlide();
+                startSlideInterval();
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    stopSlideInterval();
+                    currentIndex = parseInt(dot.getAttribute('data-index'));
+                    updateSlides(currentIndex);
+                    startSlideInterval();
+                });
+            });
+
+            let startX = 0;
+            let isDragging = false;
+
+            const carouselContainer = document.querySelector('.carousel-container');
+
+            carouselContainer.addEventListener('touchstart', (e) => {
+                stopSlideInterval();
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            carouselContainer.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diffX = startX - currentX;
+
+                if (diffX > 50) {
+                    showNextSlide();
+                    isDragging = false;
+                } else if (diffX < -50) {
+                    showPrevSlide();
+                    isDragging = false;
+                }
+            });
+
+            carouselContainer.addEventListener('touchend', () => {
+                isDragging = false;
+                startSlideInterval();
+            });
+
+            updateSlides(currentIndex);
+            startSlideInterval();
         });
     </script>
 
