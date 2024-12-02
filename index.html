@@ -67,6 +67,7 @@
             margin: 30px auto;
         }
 
+        /* 产品展示 */
         .product-images {
             position: relative;
             width: 100%;
@@ -95,7 +96,8 @@
             width: 60%;
             height: 100%;
             transform: translateX(-50%);
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.5s ease-in-out, z-index 0.5s ease-in-out;
+            z-index: 1;
         }
 
         .carousel-slide.prev {
@@ -105,12 +107,12 @@
 
         .carousel-slide.current {
             transform: translateX(-50%) scale(1);
-            z-index: 2;
+            z-index: 3;
         }
 
         .carousel-slide.next {
             transform: translateX(50%) scale(0.8);
-            z-index: 1;
+            z-index: 2;
         }
 
         .carousel-slide.hidden {
@@ -148,7 +150,7 @@
             padding: 0 10px;
             cursor: pointer;
             border-radius: 50%;
-            z-index: 3;
+            z-index: 4;
             display: none;
         }
 
@@ -541,10 +543,10 @@
                 </div>
                 <div class="advantage-item">
                     <div class="our-product">
-                        <span>基于小米Pad改装，品牌品质保证，2K高清大屏护眼</span>
+                        <span>基于小米 Pad 改装，大牌品质保证，2K高清屏、大字护眼</span>
                     </div>
                     <div class="competitor-product">
-                        <span>1080P低分辨率屏幕，损害视力</span>
+                        <span>720P 低分辨率屏幕，损害视力</span>
                     </div>
                 </div>
             </div>
