@@ -27,6 +27,15 @@
             --gap-size: 20px;
         }
 
+        /* 新增：占位元素用于滚动到顶部 */
+        #top {
+            /* 这个元素仅用于滚动定位，不需要实际内容 */
+            position: relative;
+            top: -var(--header-height);
+            /* 确保占位元素不影响布局 */
+            height: 0;
+        }
+
         header {
             background: linear-gradient(135deg, #ff7e5f, #feb47b);
             color: #fff;
@@ -55,6 +64,7 @@
             color: #fff;
             text-decoration: none;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
         header nav ul li a:hover {
@@ -426,12 +436,16 @@
 </head>
 <body>
 
+    <!-- 新增：占位元素用于滚动到顶部 -->
+    <div id="top"></div>
+
     <!-- 头部 -->
     <header>
         <h1>鲨鱼英语学习机</h1>
         <nav>
             <ul>
-                <li><a href="#products">图片</a></li>
+                <!-- 修改后的“图片”链接 -->
+                <li><a href="#top">图片</a></li>
                 <li><a href="#features">功能</a></li>
                 <li><a href="#advantages">我们的优势</a></li>
                 <li><a href="#video">使用视频</a></li>
@@ -575,8 +589,14 @@
             function updateScrollMargin() {
                 const headerHeight = header.offsetHeight;
                 sections.forEach(section => {
-                    section.style.scrollMarginTop = `calc(${headerHeight}px + 30px)`;
+                    section.style.scrollMarginTop = `calc(${headerHeight}px + 20px)`;
                 });
+
+                // 更新 #top 的 scroll-margin-top
+                const topElement = document.getElementById('top');
+                if (topElement) {
+                    topElement.style.scrollMarginTop = `calc(${headerHeight}px + 20px)`;
+                }
             }
 
             updateScrollMargin();
@@ -589,12 +609,8 @@
             const nextButton = document.querySelector('.next-button');
             let currentIndex = 1;
             let slideInterval;
-            let isMoving = false; // 防止多次点击导致的问题
 
             function updateSlides(index) {
-                if (isMoving) return;
-                isMoving = true;
-
                 slides.forEach((slide, i) => {
                     slide.classList.remove('prev', 'current', 'next', 'hidden');
                     if (i === index) {
@@ -610,11 +626,6 @@
 
                 dots.forEach(dot => dot.classList.remove('active'));
                 dots[index].classList.add('active');
-
-                // 延迟解除移动状态
-                setTimeout(() => {
-                    isMoving = false;
-                }, 500); // 与CSS过渡时间一致
             }
 
             function showNextSlide() {
